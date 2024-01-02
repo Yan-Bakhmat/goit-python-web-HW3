@@ -16,7 +16,7 @@ stream_handler = logging.StreamHandler()
 logger.addHandler(stream_handler)
 logger.setLevel(logging.DEBUG)
 
-numbers = [128, 255, 99999, 10651060, 12656568]
+numbers = [1128, 1255, 199999, 11065106, 14395634]
 
 
 def factorize(*numbers):
@@ -28,7 +28,7 @@ def factorize(*numbers):
                 result.append(i)
             i += 1
         logger.debug(f'{result}')
-    return result
+    return None
 
 
 def normalize(name):
@@ -146,7 +146,7 @@ def main():
 
         elif command == '2':
             timer1 = time()
-            factorize(128, 255, 99999, 10651060, 12656568)
+            factorize(1128, 1255, 199999, 11065106, 14395634)
             print(f'Synchronous process: {time() - timer1} sec')
 
             timer2 = time()
