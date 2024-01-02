@@ -6,6 +6,30 @@ import zipfile
 import tarfile
 import gzip
 
+from multiprocessing import cpu_count, current_process
+from time import time
+import logging
+import concurrent.futures
+
+logger = logging.getLogger()
+stream_handler = logging.StreamHandler()
+logger.addHandler(stream_handler)
+logger.setLevel(logging.DEBUG)
+
+numbers = [128, 255, 99999, 10651060, 12656568]
+
+
+def factorize(*numbers):
+    logger.debug(f"Current process={current_process().pid}")
+    for number in numbers:
+        result = []
+        for i in range(1, number + 1):
+            if not number % i:
+                result.append(i)
+            i += 1
+        logger.debug(f'{result}')
+    return result
+
 
 def normalize(name):
     translit_dict = {
@@ -97,7 +121,8 @@ def main():
     table.add_rows(
         [
             ["1", "Sort any folder"],
-            ["2", "Exit the Sorter"],
+            ["2", "Test 'factorize' function"],
+            ["3", "Exit"],
         ]
     )
 
@@ -120,6 +145,16 @@ def main():
             sort_files(folder_path)
 
         elif command == '2':
+            timer1 = time()
+            factorize(128, 255, 99999, 10651060, 12656568)
+            print(f'Synchronous process: {time() - timer1} sec')
+
+            timer2 = time()
+            with concurrent.futures.ProcessPoolExecutor(cpu_count()) as executor:
+                executor.map(factorize, numbers)
+            print(f'Asynchronous process: {time() - timer2} sec')
+
+        elif command == '3':
             break
 
         else:
