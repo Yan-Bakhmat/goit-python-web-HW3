@@ -6,6 +6,7 @@ import zipfile
 import tarfile
 import gzip
 
+
 def normalize(name):
     translit_dict = {
         'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'є': 'ye', 'ж': 'zh', 'з': 'z', 'и': 'i',
@@ -27,6 +28,7 @@ def normalize(name):
         else:
             normalized_name += '_'
     return normalized_name
+
 
 def sort_files(folder_path):
     image_extensions = ('.jpeg', '.png', '.jpg', '.svg')
@@ -59,7 +61,8 @@ def sort_files(folder_path):
 
             os.makedirs(destination_folder, exist_ok=True)
 
-            new_file_path = os.path.join(destination_folder, normalized_name + file_extension)
+            new_file_path = os.path.join(
+                destination_folder, normalized_name + file_extension)
 
             shutil.move(os.path.join(root, file), new_file_path)
 
@@ -68,6 +71,7 @@ def sort_files(folder_path):
             dir_path = os.path.join(root, dir)
             if not os.listdir(dir_path):
                 os.rmdir(dir_path)
+
 
 def extract_file(file_path, destination_folder):
     file_extension = os.path.splitext(file_path)[1].lower()
@@ -80,11 +84,13 @@ def extract_file(file_path, destination_folder):
             tar_ref.extractall(destination_folder)
     elif file_extension == '.gz':
         with gzip.open(file_path, 'rb') as gz_ref:
-            extract_path = os.path.join(destination_folder, os.path.basename(file_path[:-3]))
+            extract_path = os.path.join(
+                destination_folder, os.path.basename(file_path[:-3]))
             with open(extract_path, 'wb') as extract_file:
                 extract_file.write(gz_ref.read())
 
     os.remove(file_path)
+
 
 def main():
     table = PrettyTable(['Command', 'Instruction'])
@@ -118,6 +124,7 @@ def main():
 
         else:
             print("Invalid command.")
+
 
 if __name__ == "__main__":
     main()
