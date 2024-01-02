@@ -142,8 +142,6 @@ def main():
             sort_files(folder_path)
             print("File sorting completed successfully.")
 
-            sort_files(folder_path)
-
         elif command == '2':
             timer1 = time()
             factorize(1128, 1255, 199999, 11065106, 14395634)
